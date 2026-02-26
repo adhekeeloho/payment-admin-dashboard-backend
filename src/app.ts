@@ -34,7 +34,20 @@ const swaggerHtml = `<!DOCTYPE html>
 export const createApp = () => {
   const app = express();
 
-  app.use(helmet());
+  app.use(
+    helmet({
+      contentSecurityPolicy: {
+        directives: {
+          defaultSrc: ["'self'"],
+          scriptSrc: ["'self'", 'https://unpkg.com', "'unsafe-inline'"],
+          styleSrc: ["'self'", 'https://unpkg.com', "'unsafe-inline'"],
+          imgSrc: ["'self'", 'data:', 'https://unpkg.com'],
+          connectSrc: ["'self'"],
+          fontSrc: ["'self'", 'https://unpkg.com'],
+        },
+      },
+    })
+  );
   app.use(cors());
   app.use(morgan('dev'));
   app.use(express.json());
