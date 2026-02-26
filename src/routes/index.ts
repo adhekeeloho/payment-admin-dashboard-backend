@@ -8,6 +8,7 @@ import { payoutsRouter } from './payouts';
 import { supportRouter } from './support';
 import { settingsRouter } from './settings';
 import { approvalsRouter } from './approvals';
+import { pricingRouter } from './pricing';
 
 export const apiRouter = Router();
 
@@ -20,3 +21,4 @@ apiRouter.use('/payouts', payoutsRouter);
 apiRouter.use('/support', supportRouter);
 apiRouter.use('/settings', settingsRouter);
 apiRouter.use('/approvals', approvalsRouter);
+apiRouter.use('/pricing', pricingRouter);

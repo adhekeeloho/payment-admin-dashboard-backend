@@ -149,3 +149,16 @@ model AuditLog {
   details     Json?
   createdAt   DateTime @default(now())
 }
+
+model PricingPlan {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  price       Float
+  currency    String   @default("USD")
+  interval    String   @default("month")
+  features    String[]
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

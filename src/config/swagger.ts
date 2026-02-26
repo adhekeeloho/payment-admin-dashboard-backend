@@ -387,5 +387,56 @@ export const swaggerSpec = {
         responses: { 200: { description: 'Audit log entries' } },
       },
     },
+    '/pricing/plans': {
+      get: {
+        summary: 'List pricing plans',
+        responses: { 200: { description: 'Pricing plans' } },
+      },
+      post: {
+        summary: 'Create a pricing plan',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: {
+                  name: { type: 'string' },
+                  description: { type: 'string' },
+                  price: { type: 'number' },
+                  currency: { type: 'string' },
+                  interval: { type: 'string', enum: ['month', 'year'] },
+                  features: { type: 'array', items: { type: 'string' } },
+                  isActive: { type: 'boolean' },
+                },
+                required: ['name', 'price'],
+              },
+            },
+          },
+        },
+        responses: { 201: { description: 'Plan created' } },
+      },
+    },
+    '/pricing/plans/{id}': {
+      get: {
+        summary: 'Get pricing plan by ID',
+        parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string' } }],
+        responses: { 200: { description: 'Plan details' }, 404: { description: 'Not found' } },
+      },
+      patch: {
+        summary: 'Update a pricing plan',
+        parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string' } }],
+        requestBody: {
+          required: true,
+          content: { 'application/json': { schema: { type: 'object' } } },
+        },
+        responses: { 200: { description: 'Updated plan' }, 404: { description: 'Not found' } },
+      },
+      delete: {
+        summary: 'Delete a pricing plan',
+        parameters: [{ in: 'path', name: 'id', required: true, schema: { type: 'string' } }],
+        responses: { 204: { description: 'Deleted' }, 404: { description: 'Not found' } },
+      },
+    },
   },
 };
