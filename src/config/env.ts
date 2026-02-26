@@ -21,4 +21,9 @@ export const env = {
   otpLength: Number(process.env.OTP_LENGTH ?? 6),
   defaultAdminUser: process.env.DEFAULT_ADMIN_USER ?? 'admin',
   defaultAdminPassword: process.env.DEFAULT_ADMIN_PASSWORD ?? 'admin',
+  smtpHost: process.env.SMTP_HOST ?? '',
+  smtpPort: Number(process.env.SMTP_PORT ?? 587),
+  smtpUser: process.env.SMTP_USER ?? '',
+  smtpPass: process.env.SMTP_PASS ?? '',
+  smtpFrom: process.env.SMTP_FROM ?? 'no-reply@paymentadmin.com',
 };

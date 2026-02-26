@@ -50,7 +50,7 @@ export const swaggerSpec = {
     },
     '/auth/login': {
       post: {
-        summary: 'Verify password and request OTP',
+        summary: 'Login and receive tokens directly',
         requestBody: {
           required: true,
           content: {
@@ -61,7 +61,6 @@ export const swaggerSpec = {
                   email: { type: 'string' },
                   phone: { type: 'string' },
                   password: { type: 'string' },
-                  channel: { type: 'string', enum: ['email', 'sms'] },
                 },
                 required: ['password'],
               },
@@ -69,13 +68,13 @@ export const swaggerSpec = {
           },
         },
         responses: {
-          200: { description: 'OTP requested' },
+          200: { description: 'Returns accessToken, refreshToken' },
         },
       },
     },
     '/auth/otp/request': {
       post: {
-        summary: 'Request a new OTP',
+        summary: 'Resend OTP to email',
         requestBody: {
           required: true,
           content: {
@@ -85,16 +84,13 @@ export const swaggerSpec = {
                 properties: {
                   email: { type: 'string' },
                   phone: { type: 'string' },
-                  password: { type: 'string' },
-                  channel: { type: 'string', enum: ['email', 'sms'] },
                 },
-                required: ['password'],
               },
             },
           },
         },
         responses: {
-          200: { description: 'OTP requested' },
+          200: { description: 'OTP sent' },
         },
       },
     },
@@ -111,7 +107,7 @@ export const swaggerSpec = {
                   email: { type: 'string' },
                   phone: { type: 'string' },
                   code: { type: 'string' },
-                  channel: { type: 'string', enum: ['email', 'sms'] },
+                  requestId: { type: 'string', description: 'Returned from /register or /otp/request' },
                 },
                 required: ['code'],
               },
