@@ -52,6 +52,7 @@ model Customer {
   createdAt DateTime      @default(now())
   updatedAt DateTime      @updatedAt
   payments  Transaction[]
+  payouts   Payout[]
 }
 
 model Transaction {
@@ -69,4 +70,82 @@ enum TransactionStatus {
   pending
   completed
   failed
+}
+
+model Payout {
+  id          String       @id @default(uuid())
+  amount      Float
+  status      PayoutStatus @default(pending)
+  scheduledAt DateTime
+  paidAt      DateTime?
+  customerId  String?
+  customer    Customer?    @relation(fields: [customerId], references: [id])
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+}
+
+enum PayoutStatus {
+  pending
+  paid
+  failed
+}
+
+model SupportThread {
+  id        String          @id @default(uuid())
+  subject   String
+  status    ThreadStatus    @default(open)
+  messages  SupportMessage[]
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+}
+
+model SupportMessage {
+  id         String        @id @default(uuid())
+  threadId   String
+  thread     SupportThread @relation(fields: [threadId], references: [id])
+  senderType SenderType
+  content    String
+  createdAt  DateTime      @default(now())
+}
+
+enum ThreadStatus {
+  open
+  closed
+}
+
+enum SenderType {
+  admin
+  customer
+}
+
+model SystemSettings {
+  id        String   @id @default(uuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
+
+model Approval {
+  id           String         @id @default(uuid())
+  type         String
+  payload      Json
+  status       ApprovalStatus @default(pending)
+  reviewedBy   String?
+  reviewedAt   DateTime?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+}
+
+enum ApprovalStatus {
+  pending
+  approved
+  rejected
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String
+  performedBy String
+  details     Json?
+  createdAt   DateTime @default(now())
 }
